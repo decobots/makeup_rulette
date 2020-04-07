@@ -52,7 +52,7 @@ class Shade(models.Model):
                ]
     palette = models.ForeignKey(Palette, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    number = models.IntegerField(max_length=4)
+    number = models.IntegerField()
     color = models.CharField(max_length=200, choices=COLORS)
     second_color = models.CharField(blank=True, max_length=200, choices=COLORS)
     darkness = models.CharField(max_length=200, choices=DARKNES)
@@ -61,7 +61,7 @@ class Shade(models.Model):
     cropping = ImageRatioField('photo', '40x40')
 
     def __str__(self):
-        return f'{self.number} - {self.name}.'
+        return f'{self.palette.name} - {self.name}.'
 
     def crop(self):
         try:
