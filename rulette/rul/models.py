@@ -1,4 +1,7 @@
+import easy_thumbnails
 from django.db import models
+from image_cropping import ImageRatioField
+from image_cropping.utils import get_backend
 
 
 class Seller(models.Model):
@@ -19,7 +22,9 @@ class Palette(models.Model):
 
 
 class Shade(models.Model):
-    COLORS = [('R', 'Red'),
+    COLORS = [('P', 'Pinc'),
+              ('Co', 'Corall'),
+              ('R', 'Red'),
               ('O', 'Orange'),
               ('Y', 'Yellow'),
               ('G', 'Green'),
@@ -28,6 +33,7 @@ class Shade(models.Model):
               ('V', 'Violet'),
               ('B', 'Black'),
               ('Br', 'Brown'),
+              ('Gr', 'Gray'),
               ('W', 'White'),
               ('S', 'Silver'),
               ('Go', 'Gold'), ]
@@ -38,11 +44,36 @@ class Shade(models.Model):
                 ('T', 'Topper'),
                 ('F', 'Foil'),
                 ]
+    DARKNES = [('1', 'Blackl'),
+               ('2', 'dark'),
+               ('3', 'medium'),
+               ('4', 'light'),
+               ('5', 'white'),
+               ]
     palette = models.ForeignKey(Palette, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
+    number = models.IntegerField(max_length=4)
     color = models.CharField(max_length=200, choices=COLORS)
+    second_color = models.CharField(blank=True, max_length=200, choices=COLORS)
+    darkness = models.CharField(max_length=200, choices=DARKNES)
     texture = models.CharField(max_length=200, choices=TEXTURES)
     photo = models.ImageField(blank=True, upload_to='shades')
+    cropping = ImageRatioField('photo', '40x40')
 
     def __str__(self):
-        return f'{self.name} - {self.color}:{self.texture}.'
+        return f'{self.number} - {self.name}.'
+
+    def crop(self):
+        try:
+            thumbnail_url = get_backend().get_thumbnail_url(
+                self.photo,
+                {
+                    'size': (430, 360),
+                    'box': self.cropping,
+                    'crop': True,
+                    'detail': True,
+                }
+            )
+        except easy_thumbnails.exceptions.InvalidImageFormatError:
+            thumbnail_url = ''
+        return thumbnail_url
