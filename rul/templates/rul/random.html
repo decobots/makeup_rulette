@@ -1,3 +1,4 @@
+{% load static %}
 {% if shades_list %}
     <ul>
     {% for shade in shades_list %}
@@ -10,3 +11,5 @@
 {% else %}
     <p>No shades are available.</p>
 {% endif %}
+
+<img src="{% static 'IMG_0579.PNG' %}" height="40px" />
