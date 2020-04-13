@@ -3,6 +3,8 @@ from django.db import models
 from image_cropping import ImageRatioField
 from image_cropping.utils import get_backend
 
+from .storage import CustomStorage
+
 
 class Seller(models.Model):
     name = models.CharField(max_length=200)
@@ -19,6 +21,9 @@ class Palette(models.Model):
     # seller = models.DateTimeField('date published')
     def __str__(self):
         return f'{self.name} by {self.seller}.'
+
+
+custom_store = CustomStorage()
 
 
 class Shade(models.Model):
@@ -57,7 +62,7 @@ class Shade(models.Model):
     second_color = models.CharField(blank=True, max_length=200, choices=COLORS)
     darkness = models.CharField(max_length=200, choices=DARKNES)
     texture = models.CharField(max_length=200, choices=TEXTURES)
-    photo = models.ImageField(blank=True, upload_to='shades')
+    photo = models.ImageField(blank=True, storage=custom_store, upload_to='shades')
     cropping = ImageRatioField('photo', '40x40')
 
     def __str__(self):

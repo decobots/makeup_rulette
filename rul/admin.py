@@ -6,7 +6,7 @@ from image_cropping import ImageCroppingMixin
 from .models import Palette, Shade, Seller
 
 
-class ShadeInline(ImageCroppingMixin,admin.StackedInline):
+class ShadeInline(ImageCroppingMixin, admin.TabularInline):
     model = Shade
     extra = 3
 
@@ -15,6 +15,7 @@ class PaletteAdmin(ModelAdmin):
 
     def image_tag(self, obj):
         return format_html('<img src="{}" height="100px" />'.format(obj.photo.url))
+
     image_tag.short_description = 'Image'
 
     list_display = ['name', 'image_tag', ]
@@ -28,7 +29,6 @@ class ShadeAdmin(ImageCroppingMixin, ModelAdmin):
         return format_html('<img src="{}" height="40px" />'.format(obj.crop()))
 
     list_display = ['name', 'crop']
-
 
 
 admin.site.register(Seller)
