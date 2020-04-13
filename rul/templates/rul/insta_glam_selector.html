@@ -1,26 +1,25 @@
-<img src="{{crease.crop}}" height="40px" />
-<img src="{{inner.crop}}" height="40px" />
-<img src="{{outer_v.crop}}" height="40px" />
-<img src="{{blending.crop}}" height="40px" />
-
-
-
-<svg width="500" height="280" xmlns="http://www.w3.org/2000/svg">
+{% extends 'rul/base.html' %}
+{% block content %}
+    <a href="{% url 'shade_detail' crease.id %}"><img src="{{crease.crop}}" height="40px" /></a>
+    <a href="{% url 'shade_detail' inner.id %}"><img src="{{inner.crop}}" height="40px" /></a>
+    <a href="{% url 'shade_detail' outer_v.id %}"><img src="{{outer_v.crop}}" height="40px" /></a>
+    <a href="{% url 'shade_detail' blending.id %}"><img src="{{blending.crop}}" height="40px" /></a>
+    <svg width="500" height="280" xmlns="http://www.w3.org/2000/svg">
  <!-- Created with SVG Editor - http://github.com/mzalive/SVG Editor/ -->
  <g>
   <title>Layer 1</title>
   <defs>
-  <pattern id="img1" patternUnits="userSpaceOnUse" width="100" height="100">
-    <image xlink:href="{{inner.crop}}" x="0" y="0" width="100" height="100" />
+  <pattern id="img1" patternUnits="userSpaceOnUse" width="40" height="40">
+    <image xlink:href="{{inner.crop}}" x="-4" y="-4" width="48" height="48" />
   </pattern>
-  <pattern id="img2" patternUnits="userSpaceOnUse" width="100" height="100">
-    <image xlink:href="{{outer_v.crop}}" x="0" y="0" width="100" height="100" />
+  <pattern id="img2" patternUnits="userSpaceOnUse" width="40" height="40">
+    <image xlink:href="{{outer_v.crop}}"  x="-4" y="-4" width="48" height="48"/>
   </pattern>
-  <pattern id="img3" patternUnits="userSpaceOnUse" width="100" height="100">
-    <image xlink:href="{{crease.crop}}" x="0" y="0" width="100" height="100" />
+  <pattern id="img3" patternUnits="userSpaceOnUse" width="40" height="40">
+    <image xlink:href="{{crease.crop}}"  x="-4" y="-4" width="48" height="48"/>
   </pattern>
-  <pattern id="img4" patternUnits="userSpaceOnUse" width="100" height="100">
-    <image xlink:href="{{blending.crop}}" x="0" y="0" width="100" height="100" />
+  <pattern id="img4" patternUnits="userSpaceOnUse" width="40" height="40">
+    <image xlink:href="{{blending.crop}}"  x="-4" y="-4" width="48" height="48" />
   </pattern>
 </defs>
 
@@ -36,3 +35,4 @@
 
  </g>
 </svg>
+{% endblock %}
