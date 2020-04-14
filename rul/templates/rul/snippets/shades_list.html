@@ -1,0 +1,19 @@
+{% if shades_list %}
+    <div class="row">
+    <div class="col-sm">
+        <ul class="p-6">
+        {% for shade in shades_list %}
+            <li>
+                {% include 'rul/snippets/shade_with_popup.html' with shade=shade%}
+                {% cycle 'Inner corner' 'Crease' 'Outer V' 'Blending' as part %}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="col">
+        {% include 'rul/snippets/eye_preview_4.html' with shades_list=shades_list%}
+    </div>
+   </div>
+    {% else %}
+        <p>No shades are available.</p>
+    {% endif %}

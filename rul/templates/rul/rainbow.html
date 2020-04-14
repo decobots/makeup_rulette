@@ -1,0 +1,19 @@
+{% extends 'rul/base.html' %}
+{% block content %}
+     {% for color, shades in colors.items %}
+     <div class="row">
+         <div class="col-3">
+            {{color}}
+         </div>
+         {% if shades %}
+             <div class="col">
+                 {% for shade in shades %}
+                    {% include 'rul/snippets/shade_with_popup.html' with shade=shade%}
+
+                 {% endfor %}
+             </div>
+         {% endif %}
+     </div>
+     {% endfor %}
+
+{% endblock %}

@@ -1,15 +1,4 @@
 {% extends 'rul/base.html' %}
 {% block content %}
-    {% if shades_list %}
-        <ul>
-        {% for shade in shades_list %}
-            <li>{% cycle 'Inner' 'Crease' 'Outer V' 'Blending' as part %}
-                <img src="{{shade.crop}}" height="40px" />
-                <a href="{% url 'shade_detail' shade.id %}">{{ shade.name }}</a>
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No shades are available.</p>
-    {% endif %}
+    {% include 'rul/snippets/shades_list.html' with shades_list=shades_list%}
 {% endblock %}
