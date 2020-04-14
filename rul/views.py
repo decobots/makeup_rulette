@@ -9,9 +9,8 @@ def index(request):
 
 
 def random_selector(request):
-    shades = Shade.objects.all().order_by('?')[:5]
-    context = {'shades_list': shades,
-               'eye_parts': ['Inner', 'Crease', 'Outer V', 'Blending']}
+    shades = Shade.objects.all().order_by('?')[:4]
+    context = {'shades_list': shades}
     return render(request, 'rul/random.html', context)
 
 
@@ -22,10 +21,19 @@ def insta_glam_selector(request):
         '?')[:1]
     outer_v = Shade.objects.filter(darkness__lt=3).all().order_by('?')[:1]
     blending = Shade.objects.filter(darkness__gt=3).all().order_by('?')[:1]
-    context = {"crease": crease[0], 'inner': inner[0], 'outer_v': outer_v[0], 'blending': blending[0]}
+    context = {"shades_list": [crease[0], inner[0], outer_v[0], blending[0]]}
     return render(request, 'rul/insta_glam_selector.html', context)
 
 
 def shade_detail(request, shade_id):
     shade = Shade.objects.get(pk=shade_id)
     return render(request, 'rul/shade_details.html', {'shade': shade})
+
+def rainbow(request):
+    colors = {}
+    for color in Shade.COLORS:
+
+        temp_colors = Shade.objects.filter(color=color[0]).all().order_by('darkness')
+        colors[color[1]] = temp_colors
+
+    return render(request, 'rul/rainbow.html', {'colors': colors})
