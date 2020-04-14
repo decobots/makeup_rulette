@@ -14,7 +14,11 @@ class ShadeInline(ImageCroppingMixin, admin.TabularInline):
 class PaletteAdmin(ModelAdmin):
 
     def image_tag(self, obj):
-        return format_html('<img src="{}" height="100px" />'.format(obj.photo.url))
+        try:
+            result = format_html('<img src="{}" height="100px" />'.format(obj.photo.url))
+        except ValueError:
+            result = ''
+        return result
 
     image_tag.short_description = 'Image'
 
