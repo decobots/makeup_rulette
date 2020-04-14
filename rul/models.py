@@ -27,7 +27,8 @@ custom_store = CustomStorage()
 
 
 class Shade(models.Model):
-    COLORS = [('P', 'Pinc'),
+    COLORS = [('P', 'Pink'),
+              ('L', 'Lilac'),
               ('Co', 'Corall'),
               ('R', 'Red'),
               ('O', 'Orange'),
@@ -36,11 +37,14 @@ class Shade(models.Model):
               ('B', 'Blue'),
               ('C', 'Cyan'),
               ('V', 'Violet'),
-              ('B', 'Black'),
+              ('Pu', 'Purple'),
+              ('Bk', 'Black'),
               ('Br', 'Brown'),
+              ('Be', 'Beige'),
               ('Gr', 'Gray'),
               ('W', 'White'),
               ('S', 'Silver'),
+              ('Co', 'Cooper'),
               ('Go', 'Gold'), ]
     TEXTURES = [('M', 'Matte'),
                 ('Sh', 'Shimmer'),
