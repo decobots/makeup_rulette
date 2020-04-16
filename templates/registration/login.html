@@ -34,6 +34,7 @@
     <div class="row d-flex align-items-baseline">
         <div class="col-3 mr-1"><button type="submit" class="btn btn-primary">Login</button></div>
         <div class="col"><a class="button" href="{% url 'password_reset' %}">Lost password?</a></div>
+        <div class="col"><a href="{% url 'django_registration_register'%}?next={{request.path}}">Register</a></div>
     </div>
 
 
