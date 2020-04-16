@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
-from .settings_local import DB, LOCAL_SECRET_KEY, LOCAL_DEBUG
+from .settings_local import DB, LOCAL_SECRET_KEY, LOCAL_DEBUG, EMAIL_HOST_PASSWORD, EMAIL_HOST_USER
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -137,4 +137,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'makeup.rulette@gmail.com'
+EMAIL_HOST_PASSWORD = '011zxc011'
+EMAIL_PORT = 587
