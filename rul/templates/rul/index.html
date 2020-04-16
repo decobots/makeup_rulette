@@ -1,0 +1,14 @@
+{% extends 'rul/base.html' %}
+{% block content %}
+
+
+{% if user.is_authenticated %}
+<h1>Welcome to our site!</h1>
+{% else %}
+    <h2>Please register or login to use our amazing site!</h2>
+<br/>
+    <h1><a href="{% url 'django_registration_register'%}?next={{request.path}}">Register</a></h1>
+    <h1><a href="{% url 'login'%}?next={{request.path}}">Login</a></h1>
+{% endif %}
+
+{% endblock %}

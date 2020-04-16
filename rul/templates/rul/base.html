@@ -10,16 +10,28 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar  navbar-light bg-light">
     <a class="navbar-brand" href="#">Navbar</a>
     <a class="nav-link" href="{% url 'random' %}">Random</a>
     <a class="nav-link" href="{% url 'insta_glam' %}">Insta_glam</a>
     <a class="nav-link" href="{% url 'rainbow' %}">Your rainbow</a>
+
+    <ul class="sidebar-nav">
+       {% if user.is_authenticated %}
+         <li>User: {{ user.get_username }}</li>
+         <li><a href="{% url 'logout'%}">Logout</a></li>
+       {% else %}
+         <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+       {% endif %}
+  </ul>
+
  </nav>
-    <div class="container">
+    <div class="container-fluid">
+        <div class="mt-5 ml-5">
         {% block content %}
         {% endblock %}
+        </div>
     </div>
-<footer class="navbar navbar-light bg-light" >2020</footer>
+<nav class="navbar fixed-bottom navbar-light bg-light">2020</nav>
 </body>
 </html>
