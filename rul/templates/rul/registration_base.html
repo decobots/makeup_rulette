@@ -1,0 +1,19 @@
+{% extends 'rul/base.html' %}
+{% block content %}
+
+
+<div class="d-flex justify-content-center align-items-center m-5">
+    <div class="card " style="width: 25rem;">
+      <div class="card-body">
+        <h5 class="card-title">
+            {% block title %}
+            {% endblock %}
+        </h5>
+        <p class="card-text">
+            {% block body %}
+            {% endblock %}
+        </p>
+      </div>
+    </div>
+</div>
+{% endblock %}

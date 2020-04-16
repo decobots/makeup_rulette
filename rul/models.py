@@ -84,3 +84,13 @@ class Shade(models.Model):
         except easy_thumbnails.exceptions.InvalidImageFormatError:
             thumbnail_url = ''
         return thumbnail_url
+
+#
+# class UserPalette(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     palette = models.ForeignKey(Palette, on_delete=models.CASCADE)
+#
+#
+# class UserShade(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     shade = models.ForeignKey(Shade, on_delete=models.CASCADE)

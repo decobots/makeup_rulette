@@ -20,8 +20,12 @@
         </button>
       </div>
       <div class="modal-body">
-            <p>{{shade.get_color_display }}{% if shade.second_color  %}/{{shade.get_second_color_display}}{% endif %}
-             - {{shade.get_darkness_display }} {{shade.get_texture_display }}</p>
+      <div class="row">
+          <div class="col-5"><img src="{{shade.palette.photo.url}}" height="100px" /></div>
+          <div class="col"><p>{{shade.get_color_display }}{% if shade.second_color  %}/{{shade.get_second_color_display}}{% endif %}
+             - {{shade.get_darkness_display }} {{shade.get_texture_display }}</p></div>
+        </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
