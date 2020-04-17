@@ -1,5 +1,6 @@
 import easy_thumbnails
 from django.db import models
+from django_registration.forms import User
 from image_cropping import ImageRatioField
 from image_cropping.utils import get_backend
 
@@ -85,11 +86,13 @@ class Shade(models.Model):
             thumbnail_url = ''
         return thumbnail_url
 
-#
-# class UserPalette(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     palette = models.ForeignKey(Palette, on_delete=models.CASCADE)
-#
+
+class UserPalette(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    palette = models.ForeignKey(Palette, on_delete=models.CASCADE)
+    def __str__(self):
+        return f'{self.user} - {self.palette.name}.'
+
 #
 # class UserShade(models.Model):
 #     user = models.ForeignKey(User, on_delete=models.CASCADE)

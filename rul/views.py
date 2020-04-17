@@ -1,8 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django_registration.forms import User
 
-from .models import Shade
+from .forms import get_user_palette_form
+from .models import Shade, Palette, UserPalette
 
 
 def index(request):
@@ -41,3 +44,35 @@ def rainbow(request):
         colors[color[1]] = temp_colors
 
     return render(request, 'rul/rainbow.html', {'colors': colors})
+
+
+@login_required
+def user_palette(request):
+    user = User.objects.get(id=request.user.pk)
+    mather_form = get_user_palette_form(user_id=user.id)
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = mather_form(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            selected = request.POST.getlist('palettes')
+
+            UserPalette.objects.filter(user_id=user.id).delete()
+            for palette_id in selected:
+                palette = Palette.objects.get(id=palette_id)
+                pair = UserPalette(user=user, palette=palette)
+                pair.save()
+
+            return HttpResponseRedirect('user_palette_saved')
+        else:
+            return HttpResponseRedirect('user_palette')
+    # if a GET (or any other method) we'll create a blank form
+    else:
+
+        form = mather_form()
+        return render(request, 'rul/user_palette.html', {'form': form})
+
+@login_required
+def user_palette_saved(request):
+    palettes =UserPalette.objects.filter(user_id=request.user.pk).select_related("palette")
+    return render(request, 'rul/user_palette_saved.html', {'palettes':palettes})
