@@ -1,4 +1,11 @@
 {% extends 'rul/base.html' %}
 {% block content %}
-    {% include 'rul/snippets/shades_list.html' with shades_list=shades_list%}
+{%if error %}
+    <p>You do not have enough shades to create makeup please add more in <a href="{% url 'user_shade'%}">your shades</a>.</p>
+{% else %}
+ {% include 'rul/snippets/shades_list.html' with shades_list=shades_list%}
+{% endif %}
+
+
+
 {% endblock %}

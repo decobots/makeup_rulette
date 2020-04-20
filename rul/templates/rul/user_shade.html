@@ -1,0 +1,41 @@
+{% extends 'rul/base.html' %}
+{% block content %}
+
+<form action="user_shade" method="post">
+    <button type="submit" class="btn btn-primary">Ok</button><br/>
+    {% csrf_token %}
+    {% for palette in palettes %}
+    <div>
+        {{palette}}
+        <button type="button" class="btn btn-outline-primary btn-sm"  name="btn_select">SElect all shades</button>
+        <button type="button" class="btn btn-outline-primary btn-sm"  name="btn_deselect">DEselect all shades</button>
+        <br/>
+        {% for shade in shades %}
+            {% if shade.palette.id == palette.id%}
+                ---- <input type="checkbox" name="s{{shade.id}}" {% if shade.id in user_shades%}checked="checked" {% endif %}/> {{shade}}<br/>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+</form>
+<a href="{% url 'user_palette'%}">Manage your palettes</a>
+
+
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+
+$(document).ready(function() {
+    $('button[name ="btn_select"]').click(check_all);
+    $('button[name ="btn_deselect"]').click(uncheck_all);
+
+});
+function check_all(event){
+       checkboxes = $(event.target).parent().find('input').attr('checked','checked');
+}
+function uncheck_all(event){
+       checkboxes = $(event.target).parent().find('input').removeAttr('checked');
+}
+</script>
+{% endblock %}
