@@ -6,8 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django_registration.forms import User
 
-from .forms import get_user_palette_form
-from .models import Shade, Palette, UserPalette, UserShade
+from .models import Shade, Palette, UserShade
 
 
 def index(request):
@@ -49,12 +48,6 @@ def insta_glam_selector(request):
 
 
 @login_required
-def shade_detail(request, shade_id):
-    shade = Shade.objects.get(pk=shade_id)
-    return render(request, 'rul/shade_details.html', {'shade': shade})
-
-
-@login_required
 def rainbow(request):
     colors = {}
     shades_id = user_shades(request.user.pk)
@@ -66,42 +59,9 @@ def rainbow(request):
 
 
 @login_required
-def user_palette(request):
-    user = User.objects.get(id=request.user.pk)
-    mather_form = get_user_palette_form(user_id=user.id)
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = mather_form(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            selected = request.POST.getlist('palettes')
-
-            UserPalette.objects.filter(user_id=user.id).delete()
-            for palette_id in selected:
-                palette = Palette.objects.get(id=palette_id)
-                pair = UserPalette(user=user, palette=palette)
-                pair.save()
-
-            return HttpResponseRedirect('user_palette_saved')
-        else:
-            return HttpResponseRedirect('user_palette')
-    # if a GET (or any other method) we'll create a blank form
-    else:
-
-        form = mather_form()
-        return render(request, 'rul/user_palette.html', {'form': form})
-
-
-@login_required
-def user_palette_saved(request):
-    palettes = UserPalette.objects.filter(user_id=request.user.pk).select_related("palette")
-    return render(request, 'rul/user_palette_saved.html', {'palettes': palettes})
-
-
-@login_required
 def user_shade(request):
     user = User.objects.get(id=request.user.pk)
-    shades = Shade.objects.select_related('palette').order_by('number').all()
+    shades = Shade.objects.select_related('palette__seller').order_by('number').all()
     shades_ids = [s.id for s in shades]
     if request.method == 'POST':
         # in assumption than name of input is id of shade
@@ -118,7 +78,7 @@ def user_shade(request):
     # if a GET (or any other method) we'll create a blank form
     else:
         u_shades = user_shades(request.user.pk)
-        palettes = Palette.objects.all()
+        palettes = Palette.objects.select_related('seller').all()
         return render(request, 'rul/user_shade.html',
                       {
                           'palettes': palettes,

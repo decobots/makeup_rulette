@@ -1,9 +1,0 @@
-{% if shade %}
-<img src="{{shade.crop}}" height="40px" />
-    <p>{{shade.name}} from  {{shade.palette.name}} by {{shade.palette.seller.name}}.</p>
-    <p>{{shade.color}}{% if shade.second_color %}/{{shade.second_color}}{% endif %} -{{shade.darkness}} {{shade.texture}} </p>
-
-
-{% else %}
-    <p>Shade is not available.</p>
-{% endif %}

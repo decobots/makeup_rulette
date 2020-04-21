@@ -3,7 +3,7 @@ from django.contrib.admin import ModelAdmin
 from django.utils.html import format_html
 from image_cropping import ImageCroppingMixin
 
-from .models import Palette, Shade, Seller, UserPalette
+from .models import Palette, Shade, Seller, UserShade
 
 
 class ShadeInline(ImageCroppingMixin, admin.TabularInline):
@@ -38,4 +38,4 @@ class ShadeAdmin(ImageCroppingMixin, ModelAdmin):
 admin.site.register(Seller)
 admin.site.register(Palette, PaletteAdmin)
 admin.site.register(Shade, ShadeAdmin)
-admin.site.register(UserPalette)
+admin.site.register(UserShade)
