@@ -90,10 +90,11 @@ class Shade(models.Model):
 class UserPalette(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     palette = models.ForeignKey(Palette, on_delete=models.CASCADE)
+
     def __str__(self):
         return f'{self.user} - {self.palette.name}.'
 
-#
-# class UserShade(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     shade = models.ForeignKey(Shade, on_delete=models.CASCADE)
+
+class UserShade(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    shade = models.ForeignKey(Shade, on_delete=models.CASCADE)
