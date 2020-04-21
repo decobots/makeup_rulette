@@ -90,3 +90,16 @@ class Shade(models.Model):
 class UserShade(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     shade = models.ForeignKey(Shade, on_delete=models.CASCADE)
+
+
+class PaletteRequest(models.Model):
+    name = models.CharField(max_length=200)
+    seller = models.CharField(max_length=200)
+    photo_URL = models.CharField(max_length=600, blank=True)
+    number_of_colors = models.IntegerField(blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    processed = models.BooleanField()
+    date = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.name} - {self.seller}.'

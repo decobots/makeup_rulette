@@ -4,9 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import resolve
 from django_registration.forms import User
 
-from .models import Shade, Palette, UserShade
+from .forms import PaletteRequestForm
+from .models import Shade, Palette, UserShade, PaletteRequest
 
 
 def index(request):
@@ -90,3 +92,23 @@ def user_shade(request):
 def user_shades(user_id):
     user_shades = UserShade.objects.select_related('shade__palette__seller').filter(user_id=user_id).all()
     return [s.shade.id for s in user_shades]
+
+
+@login_required
+def palette_request(request):
+    user = User.objects.get(id=request.user.pk)
+
+    if request.method == 'POST':
+        form = PaletteRequestForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            print(form.cleaned_data)
+            n_colors=form.cleaned_data.get('number_of_colors')
+            req = PaletteRequest(name=form.cleaned_data.get('name'),
+                                 seller=form.cleaned_data.get('seller'),
+                                 photo_URL=form.cleaned_data.get('photo_URL'),
+                                 number_of_colors=n_colors if n_colors else 0,
+                                 user=request.user,
+                                 processed=False)
+            req.save()
+            return HttpResponseRedirect('thanks')
