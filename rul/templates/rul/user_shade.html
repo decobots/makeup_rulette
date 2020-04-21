@@ -1,39 +1,37 @@
 {% extends 'rul/base.html' %}
 {% block content %}
-<table id="myTable" data-toggle="table" data-search="true">
-<thead>
-    <tr>
-      <th data-field="id">palette</th>
-      <th data-field="name">shades list</th>
-    </tr>
-  </thead>
 <form action="user_shade" method="post">
     <button type="submit" class="btn btn-primary">Ok</button><br/>
     {% csrf_token %}
-    {% for palette in palettes %}
-    <tr>
-        <td>
-            {{palette}}
-            <button type="button" class="btn btn-outline-primary btn-sm"  name="btn_select">SElect all shades</button>
-            <button type="button" class="btn btn-outline-primary btn-sm"  name="btn_deselect">DEselect all shades</button>'
-            <br/>
-            <img src="{{palette.photo.url}}" height="100px" />
-        </td>
-        <td>
-        {% for shade in shades %}
-            {% if shade.palette.id == palette.id%}
+    <table id="myTable" data-toggle="table" data-search="true">
+        <thead>
+            <tr>
+              <th data-field="id">palette</th>
+              <th data-field="name">shades list</th>
+            </tr>
+        </thead>
+        {% for palette in palettes %}
+        <tr>
+            <td>
+                {{palette}}
+                <button type="button" class="btn btn-outline-primary btn-sm"  name="btn_select">SElect all shades</button>
+                <button type="button" class="btn btn-outline-primary btn-sm"  name="btn_deselect">DEselect all shades</button>'
+                <br/>
+                <img src="{{palette.photo.url}}" height="100px" />
+            </td>
+            <td>
+            {% for shade in shades %}
+                {% if shade.palette.id == palette.id%}
 
-                ---- <input type="checkbox" name="s{{shade.id}}" {% if shade.id in user_shades%}checked="checked" {% endif %}/>{% include 'rul/snippets/shade_with_popup.html' with shade=shade%} {{shade}}<br/>
+                    ---- <input type="checkbox" name="s{{shade.id}}" {% if shade.id in user_shades%}checked="checked" {% endif %}/>{% include 'rul/snippets/shade_with_popup.html' with shade=shade%} {{shade}}<br/>
 
-            {% endif %}
+                {% endif %}
+            {% endfor %}
+            </td>
+        </tr>
         {% endfor %}
-        </td>
-    </tr>
-    {% endfor %}
-
+    </table>
 </form>
-</table>
-
 
 {% endblock %}
 {% block head %}
