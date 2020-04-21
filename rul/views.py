@@ -101,7 +101,7 @@ def user_palette_saved(request):
 @login_required
 def user_shade(request):
     user = User.objects.get(id=request.user.pk)
-    shades = Shade.objects.select_related('palette').all()
+    shades = Shade.objects.select_related('palette').order_by('number').all()
     shades_ids = [s.id for s in shades]
     if request.method == 'POST':
         # in assumption than name of input is id of shade
