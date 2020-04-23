@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import resolve
 from django_registration.forms import User
 
 from .forms import PaletteRequestForm
@@ -63,7 +62,9 @@ def rainbow(request):
 @login_required
 def user_shade(request):
     user = User.objects.get(id=request.user.pk)
-    shades = Shade.objects.select_related('palette__seller').order_by('number').all()
+    published_palettes = Palette.objects.filter(published=True).values_list('id', flat=True)
+    published_shades = Shade.objects.filter(palette__in=published_palettes).values_list('id', flat=True)
+    shades = Shade.objects.select_related('palette__seller').filter(id__in=published_shades).order_by('number').all()
     shades_ids = [s.id for s in shades]
     if request.method == 'POST':
         # in assumption than name of input is id of shade
@@ -80,7 +81,7 @@ def user_shade(request):
     # if a GET (or any other method) we'll create a blank form
     else:
         u_shades = user_shades(request.user.pk)
-        palettes = Palette.objects.select_related('seller').all()
+        palettes = Palette.objects.select_related('seller').filter(id__in=published_palettes).all()
         return render(request, 'rul/user_shade.html',
                       {
                           'palettes': palettes,
@@ -90,7 +91,10 @@ def user_shade(request):
 
 # technical function
 def user_shades(user_id):
-    user_shades = UserShade.objects.select_related('shade__palette__seller').filter(user_id=user_id).all()
+    published_palettes = Palette.objects.filter(published=True).values_list('id', flat=True)
+    published_shades = Shade.objects.filter(palette__in=published_palettes).values_list('id', flat=True)
+    user_shades = UserShade.objects.select_related(
+        'shade__palette__seller').filter(user_id=user_id, id__in=published_shades).all()
     return [s.shade.id for s in user_shades]
 
 
@@ -103,7 +107,7 @@ def palette_request(request):
         # check whether it's valid:
         if form.is_valid():
             print(form.cleaned_data)
-            n_colors=form.cleaned_data.get('number_of_colors')
+            n_colors = form.cleaned_data.get('number_of_colors')
             req = PaletteRequest(name=form.cleaned_data.get('name'),
                                  seller=form.cleaned_data.get('seller'),
                                  photo_URL=form.cleaned_data.get('photo_URL'),
