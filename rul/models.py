@@ -18,6 +18,7 @@ class Palette(models.Model):
     name = models.CharField(max_length=200)
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
     photo = models.ImageField(blank=True, upload_to='palettes')
+    published = models.BooleanField(default=False)
 
     # seller = models.DateTimeField('date published')
     def __str__(self):
