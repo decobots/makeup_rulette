@@ -94,7 +94,7 @@ def user_shades(user_id):
     published_palettes = Palette.objects.filter(published=True).values_list('id', flat=True)
     published_shades = Shade.objects.filter(palette__in=published_palettes).values_list('id', flat=True)
     user_shades = UserShade.objects.select_related(
-        'shade__palette__seller').filter(user_id=user_id, id__in=published_shades).all()
+        'shade__palette__seller').filter(user_id=user_id, shade_id__in=published_shades).all()
     return [s.shade.id for s in user_shades]
 
 
